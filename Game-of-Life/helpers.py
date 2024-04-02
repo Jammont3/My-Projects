@@ -1,41 +1,35 @@
 def update(board):
-  height = len(board)
-  width = len(board[0])
+  new_board = set()
+  all_neighbors = set()
 
-  neighbors = getNeighbors(board)
+  for pos in board:
+    neighbors = getNeighbors(board, pos)
+    all_neighbors.update(neighbors)
 
-  for y in range(height):
-    for x in range(width):
-      if neighbors[y][x] == 3 or (neighbors[y][x] == 2 and board[y][x] == 1):
-        board[y][x] = 1
-      else:
-        board[y][x] = 0
+    neighbors = list(filter(lambda x: x in board, neighbors))
+
+    if (len(neighbors) in [2, 3]):
+      new_board.add(pos)
   
+  for pos in all_neighbors:
+    neighbors = getNeighbors(board, pos)
+    neighbors = list(filter(lambda x: x in board, neighbors))
 
-  return board
+    if (len(neighbors) == 3):
+      new_board.add(pos)
+
+  return new_board
+     
 
 
-def getNeighbors(board):
-  height = len(board)
-  width = len(board[0])
+def getNeighbors(board, pos):
+  x, y = pos
+  neighbors = []
+  rows = [y - 1, y, y + 1]
+  cols = [x - 1, x, x + 1]
 
-  neighbors = [[0 for i in height] for j in width]
-
-  for y in range(height):
-    for x in range(width):
-      rows = [y - 1, y, y + 1]
-      columns = [x - 1, x, x + 1]
-      if y == 0: rows = rows[1:]       
-      if y == height - 1: rows = rows[:2]    
-      if x == 0: columns = columns[1:]
-      if x == width - 1: columns = columns[:2]
-        
-      count = 0
-      for i in rows:
-        for j in columns:
-          if (i == y and j == x): continue
-          if (board[i][j] == 1): count += 1
-      
-      neighbors[y][x] = count
-
+  for row in rows:
+    for col in cols:
+      if row == y and col == x: continue
+      neighbors.append((col, row))
   return neighbors
