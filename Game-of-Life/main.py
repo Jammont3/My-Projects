@@ -5,8 +5,8 @@ from helpers import update
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 800
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 1000
 
 f = open("grid.txt", "r")
 board = set()
@@ -19,9 +19,9 @@ for line in f.readlines():
       board.add((x, y))
     x += 1
   y += 1
-
-BOARD_WIDTH = x
-BOARD_HEIGHT = y
+board = set()
+BOARD_WIDTH = 100
+BOARD_HEIGHT = 100
 
 TILE_SIZE = SCREEN_WIDTH // BOARD_WIDTH
 
@@ -54,14 +54,13 @@ while run:
         playing = not playing
       if event.key == pygame.K_RIGHT:
         board = update(board)
-        print(board)
       if event.key == pygame.K_c:
         board = set()
       if event.key == pygame.K_r:
         board = set()
         for x in range(BOARD_WIDTH):
           for y in range(BOARD_HEIGHT):
-            if (random.randint(0, 100) > 40):
+            if (random.randint(0, 100) > 50):
               board.add((x, y))
 
   if playing:
@@ -75,6 +74,6 @@ while run:
 
 
   pygame.display.flip()
-  pygame.time.delay(100)
+  pygame.time.delay(90)
 
 pygame.quit()

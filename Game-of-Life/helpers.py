@@ -3,7 +3,7 @@ def update(board):
   all_neighbors = set()
 
   for pos in board:
-    neighbors = getNeighbors(board, pos)
+    neighbors = getNeighbors(pos)
     all_neighbors.update(neighbors)
 
     neighbors = list(filter(lambda x: x in board, neighbors))
@@ -12,7 +12,7 @@ def update(board):
       new_board.add(pos)
   
   for pos in all_neighbors:
-    neighbors = getNeighbors(board, pos)
+    neighbors = getNeighbors(pos)
     neighbors = list(filter(lambda x: x in board, neighbors))
 
     if (len(neighbors) == 3):
@@ -22,7 +22,7 @@ def update(board):
      
 
 
-def getNeighbors(board, pos):
+def getNeighbors(pos):
   x, y = pos
   neighbors = []
   rows = [y - 1, y, y + 1]
