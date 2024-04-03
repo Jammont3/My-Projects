@@ -1,3 +1,4 @@
+import pygame
 def update(board):
   new_board = set()
   all_neighbors = set()
@@ -33,3 +34,31 @@ def getNeighbors(pos):
       if row == y and col == x: continue
       neighbors.append((col, row))
   return neighbors
+
+def move_board(board):
+  keys = pygame.key.get_pressed()
+  if keys[pygame.K_w]:
+    new_board = set()
+    for pos in board:
+      new_pos = (pos[0], pos[1] + 1)
+      new_board.add(new_pos)
+    board = new_board
+  if keys[pygame.K_a]:
+    new_board = set()
+    for pos in board:
+      new_pos = (pos[0] + 1, pos[1])
+      new_board.add(new_pos)
+    board = new_board
+  if keys[pygame.K_s]:
+    new_board = set()
+    for pos in board:
+      new_pos = (pos[0], pos[1] - 1)
+      new_board.add(new_pos)
+    board = new_board
+  if keys[pygame.K_d]:
+    new_board = set()
+    for pos in board:
+      new_pos = (pos[0] - 1, pos[1])
+      new_board.add(new_pos)
+    board = new_board
+  return board

@@ -1,29 +1,17 @@
 import pygame
 import random
-from helpers import update
+from helpers import *
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 1000
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 800
 
-f = open("grid.txt", "r")
-board = set()
-y = 0
-x = 0
-for line in f.readlines():
-  x = 0
-  for val in line.split(" "):
-    if (val == "1"): 
-      board.add((x, y))
-    x += 1
-  y += 1
-board = set()
-BOARD_WIDTH = 100
-BOARD_HEIGHT = 100
+TILE_SIZE = 10
 
-TILE_SIZE = SCREEN_WIDTH // BOARD_WIDTH
+BOARD_WIDTH = SCREEN_WIDTH // TILE_SIZE
+BOARD_HEIGHT = SCREEN_HEIGHT // TILE_SIZE
 
 pygame.init()
 
@@ -32,10 +20,16 @@ screen.fill(BLACK)
 
 pygame.display.flip()
 
+board = set()
+
 run = True
 playing = False
 
+tick_speed = 90
+
 while run:
+  board = move_board(board)
+
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       run = False
@@ -54,6 +48,16 @@ while run:
         playing = not playing
       if event.key == pygame.K_RIGHT:
         board = update(board)
+      if event.key == pygame.K_UP:
+        #tick_speed += 10
+        TILE_SIZE += 1
+        BOARD_WIDTH = SCREEN_WIDTH // TILE_SIZE
+        BOARD_HEIGHT = SCREEN_HEIGHT // TILE_SIZE
+      if event.key == pygame.K_DOWN:
+        #tick_speed -= 10
+        TILE_SIZE -= 1
+        BOARD_WIDTH = SCREEN_WIDTH // TILE_SIZE
+        BOARD_HEIGHT = SCREEN_HEIGHT // TILE_SIZE
       if event.key == pygame.K_c:
         board = set()
       if event.key == pygame.K_r:
@@ -74,6 +78,6 @@ while run:
 
 
   pygame.display.flip()
-  pygame.time.delay(90)
+  pygame.time.delay(tick_speed)
 
 pygame.quit()
